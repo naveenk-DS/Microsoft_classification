@@ -1,86 +1,126 @@
-# 🛡️ Microsoft - Classifying Cybersecurity Incidents
-This project focuses on classifying cybersecurity incidents using machine learning techniques. The goal is to build a model that can identify the type of incident based on input features, helping security teams respond more effectively.
+# 🛡️ Classifying Cybersecurity Incidents with Machine Learning
+## 📌 Project Overview
 
-# 📌 Project Overview
-Cybersecurity threats are a growing concern. This project uses a dataset simulating Microsoft-like security logs to predict the category of a cybersecurity incident (e.g., Malware, Phishing, Ransomware, etc.).
+This project aims to classify cybersecurity incidents into categories using machine learning.
+We preprocess raw security incident data, perform EDA (Exploratory Data Analysis), handle missing values, encode categorical features, and build ML models such as Random Forest, XGBoost, and Logistic Regression.
 
-## 📁 Dataset
-Source: Simulated or anonymized Microsoft security incident logs.
+The goal is to predict the Category of incidents (e.g., TP, FP, BP) to help security analysts prioritize responses.
 
-## Features:
+## 📂 Dataset
 
-incident_id: Unique identifier
+### The dataset consists of two files:
 
-timestamp: Time of incident
+GUIDE_Train.csv → Training dataset
 
-source_ip, destination_ip
+GUIDE_Test.csv → Testing dataset
 
-threat_level, protocol, port, user_action
+## Key Columns:
 
-description: Log summary
+IncidentId – Unique ID for incidents
 
-Target: incident_type (e.g., Malware, Phishing, Ransomware, etc.)
+AlertTitle – Title/description of alert
 
-# ⚙️ Requirements
-Install required libraries using:
+Category – Target variable (TP, FP, BP, etc.)
 
-bash
-Copy
-Edit
-pip install -r requirements.txt
-requirements.txt
-txt
-Copy
-Edit
-pandas
-numpy
-matplotlib
-seaborn
-scikit-learn
-xgboost
-nltk
-# 🧪 Key Steps
-Data Cleaning & Preprocessing
+IncidentGrade, EntityType, ResourceType, etc. – Features used for classification
 
-Handle missing values
+## ⚙️ Steps in the Project
+### 1. Data Preprocessing
 
-Convert timestamps
+Removed duplicate/unnecessary columns (OrgId, AlertId, etc.).
 
-Encode categorical variables
+Handled missing values:
 
-Text preprocessing on descriptions
+Numerical columns → filled with mean
 
-Exploratory Data Analysis (EDA)
+Categorical columns → filled with mode
 
-Incident frequency
+Label Encoding used for categorical features.
 
-IP and Port analysis
+### 2. Exploratory Data Analysis (EDA)
 
-Threat level distribution
+Distribution plots for categorical features.
 
-Feature Engineering
+Correlation heatmap (numerical features).
 
-Extract time-based features
+Feature importance analysis using Random Forest.
 
-NLP features from description using TF-IDF or CountVectorizer
+### 3. Model Selection & Training
 
-Model Training
+Models tested:
 
-Models used: Random Forest, XGBoost, Logistic Regression
+Logistic Regression
 
-Evaluation metrics: Accuracy, Precision, Recall, F1 Score
+Random Forest Classifier
 
-Model Selection
+XGBoost Classifier
 
-Cross-validation
+### 4. Model Evaluation
 
-Confusion matrix visualization
+Metrics used:
 
-# 📊 Results
-Best model: XGBoost
+Accuracy
 
-Accuracy: XX%
+Precision, Recall, F1-Score (Macro-F1 for balanced evaluation)
 
-F1 Score: XX%
+Confusion Matrix
 
-Confusion Matrix: Included in /output/
+### 5. Model Tuning
+
+Hyperparameter tuning using GridSearchCV / RandomizedSearchCV.
+
+Class imbalance handled with SMOTE and class weights.
+
+### 6. Final Model & Predictions
+
+Best model selected (Random Forest / XGBoost).
+
+Predictions saved into a CSV file (Predictions.csv).
+
+## 🧪 Usage
+### Install Dependencies
+pip install pandas numpy matplotlib seaborn scikit-learn xgboost imbalanced-learn
+
+### Run Training Script
+python train.py
+
+### Save Predictions
+import pandas as pd
+
+y_pred = model.predict(X_test)
+
+pred_df = pd.DataFrame({
+    "IncidentId": Test["IncidentId"],
+    "Predicted_Category": y_pred
+})
+
+pred_df.to_csv("Predictions.csv", index=False)
+print("✅ Predictions saved successfully!")
+
+## Save Trained Model
+import joblib
+joblib.dump(model, "final_model.pkl")
+
+Load Saved Model
+model = joblib.load("final_model.pkl")
+
+## 📊 Results
+
+Best performing model: Random Forest (after tuning)
+
+Macro-F1 Score: ~0.89 (example)
+
+Balanced performance across TP, FP, BP categories
+
+## 🔮 Future Improvements
+
+Use deep learning (LSTM/Transformers) for better text-based features.
+
+Add feature engineering from AlertTitle (NLP-based embeddings).
+
+Deploy as a Streamlit dashboard for analysts.
+
+# 👨‍💻 Author
+
+## Naveen
+Data Science Student @ GUVI – IIT Madras
